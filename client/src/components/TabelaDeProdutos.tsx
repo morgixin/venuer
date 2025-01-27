@@ -70,21 +70,21 @@ const TabelaDeLocais = ({ usuario }: Props) => {
           <tr>
             <th className="align-middle text-center">Disponibilidade 
               <Ordenacao
-                sortField="none"
+                sortField="disponibilidade"
                 currentSortField={sortField}
                 sortOrder={sortOrder}
                 onSortChange={handleSortChange}
               /></th>
             <th className="align-middle text-center">Imagem 
               <Ordenacao
-                sortField="none"
+                sortField="imagem"
                 currentSortField={sortField}
                 sortOrder={sortOrder}
                 onSortChange={handleSortChange}
               /></th>
             <th className="align-middle text-center">Categoria 
               <Ordenacao
-                sortField="none"
+                sortField="categoria"
                 currentSortField={sortField}
                 sortOrder={sortOrder}
                 onSortChange={handleSortChange}
@@ -100,21 +100,21 @@ const TabelaDeLocais = ({ usuario }: Props) => {
             </th>
             <th className="align-middle text-center">Endereço
               <Ordenacao
-                sortField="none"
+                sortField="endereco"
                 currentSortField={sortField}
                 sortOrder={sortOrder}
                 onSortChange={handleSortChange}
               /></th>
             <th className="align-middle text-center">Cidade
               <Ordenacao
-                sortField="none"
+                sortField="cidade"
                 currentSortField={sortField}
                 sortOrder={sortOrder}
                 onSortChange={handleSortChange}
               /></th>
             <th className="align-middle text-center">Valor diária
               <Ordenacao
-                sortField="none"
+                sortField="valorDiaria" // TODO: CONFERIR ESSE VALOR PLMDS KKKKKKKK
                 currentSortField={sortField}
                 sortOrder={sortOrder}
                 onSortChange={handleSortChange}
