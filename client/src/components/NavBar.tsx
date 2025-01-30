@@ -26,22 +26,6 @@ function NavBar() {
     }
   };
 
-  // const { getUsuarioByEmail } = useUsuario();
-  // const [usuario, setUsuario] = useState<Usuario | null>(null);
-
-  // useEffect(() => {
-  //   if (usuario?.email) {
-  //     const fetchUsuario = async () => {
-  //       const data = await getUsuarioByEmail(usuario.email);
-  //       if (data  && data.length > 0) {
-  //         setUsuario(data[0]);
-  //         console.log("setei!" + data[0].name);
-  //       }
-  //     };
-  //     fetchUsuario();
-  //   }
-  // }, []);
-
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">

@@ -1,8 +1,18 @@
 import { NavLink, Outlet } from "react-router-dom";
 import useUsuarioStore from "../store/useUsuarioStore";
+import Categoria from "../interfaces/Categoria";
+import useCategoriasStore from "../store/useCategoriasStore";
+import { useEffect } from "react";
+import { getCategorias } from "../hooks/useCategoria";
 
 const HomePage = () => {
   const usuario = useUsuarioStore((s) => s.usuario);
+  const {categorias, setCategorias} = useCategoriasStore();
+
+  useEffect(() => {
+    getCategorias().then((categorias) => {setCategorias(categorias)});
+  }, []);	
+
   return (
     <div className="row">
       { (usuario != null && usuario.name != "") ? (
@@ -13,19 +23,21 @@ const HomePage = () => {
       }
       <div className="col-lg-2">
         <h5>Categorias</h5>
-        <div className="nav flex-column nav-pills">
+        <div className="nav flex-column nav-pills" style={{height: "520px", overflowY: "auto", flexWrap:"nowrap" }}>
           <NavLink aria-current="page" className="nav-link" to="/">
             Todos
           </NavLink>
-          <NavLink aria-current="page" className="nav-link" to="/sala">
-            Salas
-          </NavLink>
-          <NavLink aria-current="page" className="nav-link" to="/salao">
-            Salões
-          </NavLink>
-          <NavLink aria-current="page" className="nav-link" to="/estudio">
-            Estúdios
-          </NavLink>
+          {categorias.map((categoria) => (
+            <NavLink
+              key={categoria.id}
+              aria-current="page"
+              className="nav-link"
+              to={`/${categoria.nome}`}
+            >
+              {categoria.nome}
+            </NavLink>
+          ))
+          }
         </div>
       </div>
       <div className="col-lg-10">
