@@ -26,6 +26,10 @@ function NavBar() {
     }
   };
 
+  useEffect(() => {
+    console.log(usuario)
+  }, []);
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -41,7 +45,7 @@ function NavBar() {
               <li className="nav-item">
                 <NavLink className={({ isActive }) => isActive ? "nav-link active" : "nav-link"} to="/listar-locais">Busca de locais</NavLink>
               </li>
-              { (usuario != null && usuario.email == "") ? (
+              { (usuario == null || usuario.email == "") ? (
                 <li className="nav-item">
                   <NavLink className={({ isActive }) => isActive ? "nav-link active" : "nav-link"} to="/login">Faça seu login!</NavLink>
                 </li>
