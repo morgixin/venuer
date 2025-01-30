@@ -168,8 +168,8 @@ public class LocalService {
         return localRepository.recuperarLocaisPorIdCategoria(id);
     }
 
-    public Page<Local> recuperarLocaisComPaginacao(Pageable pageable, String nome) {
-        return localRepository.recuperarLocaisComPaginacao(nome, pageable);
+    public Page<Local> recuperarLocaisComPaginacao(Pageable pageable, String nome, Long usuarioId) {
+        return localRepository.recuperarLocaisComPaginacao(nome, usuarioId, pageable);
     }
     public List<Local> recuperarLocaisPorNomeDaCategoria(String nome) {
         return localRepository.recuperarLocaisPorNomeDaCategoria(nome);

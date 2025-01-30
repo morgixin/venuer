@@ -65,16 +65,18 @@ public class LocalController {
             @RequestParam(value = "tamanho", defaultValue = "3") int tamanho,
             @RequestParam(value = "nome", defaultValue = "") String nome,
             @RequestParam(value = "sortField", defaultValue = "nome") String sortField,
-            @RequestParam(value = "sortOrder", defaultValue = "asc") String sortOrder) {
+            @RequestParam(value = "sortOrder", defaultValue = "asc") String sortOrder,
+            @RequestParam(value = "usuarioId", defaultValue = "0") Long usuarioId) {
         Sort sort = Sort.by(Sort.Direction.fromString(sortOrder), sortField);
         Pageable pageable = PageRequest.of(pagina, tamanho, sort);
-        Page<Local> page = localService.recuperarLocaisComPaginacao(pageable, nome);
+        Page<Local> page = localService.recuperarLocaisComPaginacao(pageable, nome, usuarioId);
         return new ResultadoPaginado<>(
                 page.getTotalElements(),
                 page.getTotalPages(),
                 page.getNumber(),
                 page.getContent());
     }
+
 
     @GetMapping("categoria/paginacao")
     public ResultadoPaginado<Local> recuperarLocaisPaginadosPorNomeDaCategoria(

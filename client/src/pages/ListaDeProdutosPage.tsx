@@ -12,7 +12,7 @@ const ListaDeProdutosPage = () => {
       <h5>Lista de Locais</h5>
       <hr className="mt-1"/>
       <Pesquisa />
-      <TabelaDeProdutos usuario={usuario}/>
+      <TabelaDeProdutos usuario={usuario} filterByUser={false}/>
       <Paginacao />
     </>
   )

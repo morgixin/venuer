@@ -10,6 +10,7 @@ import CardsDeProdutosPage from "../pages/CardsDeLocaisPage";
 import EditarLocalPage from "../pages/EditarLocalPage";
 import PrivateRoutes from "./PrivateRoutes";
 import DetalhesLocal from "../pages/DetalhesLocal";
+import Profile from "../pages/Profile";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,7 @@ const router = createBrowserRouter([
       { path: "editar-local", element: <EditarLocalPage/> },
       { path: "cadastrar-local", element: <CadastroDeProdutosPage /> },
       { path: "reserva", element: <CarrinhoPage /> },
+      { path: "perfil", element: <Profile /> },
     ],
   }
 ]);

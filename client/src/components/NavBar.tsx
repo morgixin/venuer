@@ -65,6 +65,9 @@ function NavBar() {
                 <><li className="nav-item">
                     <NavLink className={({ isActive }) => isActive ? "nav-link active" : "nav-link"} to="/cadastrar-local">Cadastrar local</NavLink>
                   </li>
+                  <li className="nav-item">
+                    <NavLink className={({ isActive }) => isActive ? "nav-link active" : "nav-link"} to="/perfil">Perfil</NavLink>
+                  </li>
                   { (reservas.length > 0) ?
                     <li className="nav-item"> 
                       <NavLink className={({ isActive }) => isActive ? "nav-link active" : "nav-link"} to="/reserva">Finalizar reserva</NavLink>

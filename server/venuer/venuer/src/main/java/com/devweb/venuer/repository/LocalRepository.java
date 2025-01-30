@@ -28,9 +28,12 @@ public interface LocalRepository extends JpaRepository<Local, Long> {
         List<Local> recuperarLocaisPorIdCategoria(@Param("id") long id);
 
         @Query(value = "select p from Local p " +
-                        "left outer join p.categoria " +
-                        "where p.nome like %:nome%", countQuery = "select count(p) from Local p where p.nome like %:nome%")
-        Page<Local> recuperarLocaisComPaginacao(@Param("nome") String nome, Pageable pageable);
+                "left outer join p.categoria " +
+                "left outer join p.usuario u " +
+                "where p.nome like %:nome% and (:usuarioId = 0 or u.id = :usuarioId)",
+                countQuery = "select count(p) from Local p left outer join p.usuario u where p.nome like %:nome% and (:usuarioId = 0 or u.id = :usuarioId)")
+        Page<Local> recuperarLocaisComPaginacao(@Param("nome") String nome, @Param("usuarioId") long usuarioId, Pageable pageable);
+
 
         @Query("select p from Local p " +
                         "left outer join fetch p.categoria c " +

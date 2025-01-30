@@ -8,6 +8,7 @@ interface QueryString {
   pagina: number;
   tamanho: number;
   nome: string;
+  usuarioId: number;
   sortField: string;
   sortOrder: string;
 }
@@ -15,7 +16,7 @@ const useLocaisComPaginacao = (queryString: QueryString) => {
   const { recuperarPagina } = useAPI<Local>(URL_LOCAIS);
 
   return useQuery({
-    queryKey: ["locais", "paginacao", queryString],
+    queryKey: ["locais", "usuario", "paginacao", queryString],
     queryFn: () =>
       recuperarPagina({
         params: {

@@ -7,15 +7,22 @@ import useLocalsStore from "../store/useLocaisStore";
 
 import Usuario from "../interfaces/Usuario";
 import Ordenacao from "./Ordenacao";
+import useUsuarioStore from "../store/useUsuarioStore";
+import useRemoverLocal from "../hooks/useRemoverLocal";
 
 interface Props {
   usuario: Usuario | null;
+  filterByUser: boolean;
 }
 
-const TabelaDeLocais = ({ usuario }: Props) => {
+const TabelaDeLocais = ({ usuario, filterByUser }: Props) => {
   const pagina = useLocalsStore((s) => s.pagina);
   const tamanho = useLocalsStore((s) => s.tamanho);
   const nome = useLocalsStore((s) => s.nome);
+  const idRemovendo = useLocalsStore((s) => s.idRemovendo);
+  let usuarioId = 0;
+  if (filterByUser && usuario != null)
+    usuarioId = useUsuarioStore((s) => s.usuario.id);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +31,8 @@ const TabelaDeLocais = ({ usuario }: Props) => {
 
   const setPagina = useLocalsStore((s) => s.setPagina);
   const setlocalSelecionado = useLocalsStore((s) => s.setLocalSelecionado);
+  const setIdRemovendo = useLocalsStore((s) => s.setIdRemovendo);
+
 
   const [sortField, setSortField] = useState<string>("id");
   const [sortOrder, setSortOrder] = useState<string>("asc");
@@ -36,17 +45,36 @@ const TabelaDeLocais = ({ usuario }: Props) => {
       setSortOrder("asc");
     }
   };
+  
+  const {
+    mutate: removerLocal,
+    // isPending: carregandoLocais,
+    error: errorRemocaoLocal,
+  } = useRemoverLocal();
+
+  const tratarRemocaoLocal = (id: number) => {
+    setIdRemovendo(id);
+    removerLocal(id, {
+      onSuccess: () => {
+        setIdRemovendo(null); // Reseta estado após sucesso
+        setPagina(0);
+      },
+      onError: () => {
+        setIdRemovendo(null); // Reseta estado mesmo em caso de erro
+      },
+    });
+    setPagina(0);
+  };
 
   const {
     data: resultadoPaginado,
     isPending: carregandoLocais,
     error: errorlocals,
     refetch,
-  } = useLocaisComPaginacao({ pagina, tamanho, nome, sortField, sortOrder });
+  } = useLocaisComPaginacao({ pagina, tamanho, nome, usuarioId, sortField, sortOrder });
 
   useEffect(() => {
     refetch();
-    console.log
   }, [sortField, sortOrder, refetch]);
 
   useEffect(() => {
@@ -57,6 +85,10 @@ const TabelaDeLocais = ({ usuario }: Props) => {
   if (errorlocals) throw errorlocals;
 
   const locais = resultadoPaginado.itens;
+
+  // const filterDataByUserId = () => {
+      // locais.filter((local) => local.usuario.id === usuario?.id)
+  // }
 
   const localSelecionado = (local: any) => {
     setlocalSelecionado(local);
@@ -128,10 +160,12 @@ const TabelaDeLocais = ({ usuario }: Props) => {
                 onSortChange={handleSortChange}
               />
             </th>
+            {filterByUser && <th className="align-middle text-center">Ações</th>}
           </tr>
         </thead>
         <tbody>
-          {locais.map((local) => (
+          {locais
+            .map((local) => (
             <tr key={local.id} className={local.disponivel == false ? 'table-secondary' : ''}>
               <td width={"7%"} className="align-middle text-center">
                 {local.disponivel ? "Disponível" : "Indisponível"}
@@ -166,9 +200,31 @@ const TabelaDeLocais = ({ usuario }: Props) => {
                   useGrouping: true,
                 })}
               </td>
-              <td width={"11%"} className="align-middle text-end pe-3">
+              <td width={"15%"} className="align-middle text-center">
                 {dayjs(local.dataCadastro).format("DD/MM/YYYY")}
               </td>
+              {filterByUser && (
+                <td width={"13%"} className="align-middle text-center">
+                  <button
+                    onClick={() => tratarRemocaoLocal(local.id!)}
+                    className="btn btn-danger btn-sm"
+                    type="button"
+                  >
+                    {idRemovendo === local.id ? (
+                    <>
+                      <span
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>{" "}
+                      Removendo...
+                    </>
+                    ) : (
+                      "Remover"
+                    )}
+                  </button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
