@@ -50,6 +50,10 @@ const DateSelector = () => {
     }
   };
 
+  const totalPrice = locaisCarrinho.reduce((total, { local, quantidade }) => {
+    return total + local.valorDiaria * quantidade;
+  }, 0);
+
   return (
     <div className="container" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "15px", marginTop: "20px" }}>
       <h5>Carrinho</h5>
@@ -124,6 +128,19 @@ const DateSelector = () => {
               </tr>
             )))}
           </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan={4} className="text-end fw-bold">Preço Total:</td>
+              <td className="text-end pe-3">
+                {totalPrice.toLocaleString("pt-BR", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                  useGrouping: true,
+                })}
+              </td>
+              <td></td>
+            </tr>
+          </tfoot>
         </table>
         <button
           className="btn btn-primary btn-sm"
