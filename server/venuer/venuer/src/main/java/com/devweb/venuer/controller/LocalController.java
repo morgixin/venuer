@@ -47,8 +47,12 @@ public class LocalController {
         return localService.cadastrarLocal(local);
     }
 
-    @PutMapping
-    public Local alterarLocal(@RequestBody Local local) {
+    @PutMapping("{id}")
+    public Local alterarLocal(
+            @PathVariable("id") long id,
+            @RequestBody Local local
+    ) {
+        local.setId(id); // Ensure the ID is set
         return localService.alterarLocal(local);
     }
 

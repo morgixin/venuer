@@ -3,6 +3,7 @@ export const URL_BASE: string = "http://localhost:8080";
 export const URL_CATEGORIA: string = "/categorias";
 
 export const URL_LOCAIS: string = "/locais";
+export const URL_CARRINHO: string = "/cart";
 
 export const URL_AUTENTICACAO: string = "/autenticacao";
 

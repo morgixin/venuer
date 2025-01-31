@@ -52,14 +52,14 @@ const useAPI = <T>(endpoint: string) => {
         throw error;
       });
 
-  const alterar = (obj: T) =>
-    axiosInstance
-      .put<T>(endpoint, obj)
-      .then((res) => res.data)
-      .catch((error) => {
-        tratarErro(error);
-        throw error;
-      });
+    const alterar = (obj: T, pathSuffix: string = "") =>
+      axiosInstance
+        .put<T>(`${endpoint}${pathSuffix}`, obj) // Append pathSuffix to the endpoint
+        .then((res) => res.data)
+        .catch((error) => {
+          tratarErro(error);
+          throw error;
+        });
 
   const tratarErro = (error: any) => {
     console.log("Erro: ", error);

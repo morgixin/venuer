@@ -5,13 +5,15 @@ import useUsuario from "../hooks/useUsuario";
 import { useEffect, useState } from "react";
 import Usuario from "../interfaces/Usuario";
 import useReservaStore from "../store/useReservaStore";
+import useLocaisStore from "../store/useLocaisStore";
 // import logout from "../hooks/useAPIAutenticacao";
 // import useAPIAutenticacao from "../hooks/useAPIAutenticacao";
 
 function NavBar() {
   let hasSelectedAProduct = false;
   const usuario = useUsuarioStore((s) => s.usuario);
-  const reservas = useReservaStore((s) => s.reservas);
+  // const reservas = useReservaStore((s) => s.reservas);
+  const locaisCarrinho = useLocaisStore((s) => s.locaisCarrinho);
   const setUsuario = useUsuarioStore((s) => s.setUsuario);
   // const { logout } = useAPIAutenticacao();
   const navigate = useNavigate();
@@ -56,9 +58,9 @@ function NavBar() {
                   <li className="nav-item">
                     <NavLink className={({ isActive }) => isActive ? "nav-link active" : "nav-link"} to="/perfil">Perfil</NavLink>
                   </li>
-                  { (reservas.length > 0) ?
+                  { (locaisCarrinho.length > 0) ?
                     <li className="nav-item"> 
-                      <NavLink className={({ isActive }) => isActive ? "nav-link active" : "nav-link"} to="/reserva">Finalizar reserva</NavLink>
+                      <NavLink className={({ isActive }) => isActive ? "nav-link active" : "nav-link"} to="/carrinho">Finalizar compra</NavLink>
                     </li>
                   : <></>}
                   <li className="nav-item">

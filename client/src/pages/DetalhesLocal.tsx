@@ -17,7 +17,8 @@ const DetalhesLocal = () => {
 
   // obtem o local selecionado anteriormente para dispor na tela
   const setlocalSelecionado = useLocalsStore((s) => s.setLocalSelecionado);
-  const setReservas = useReservaStore((s) => s.setReservas);
+  // const setReservas = useReservaStore((s) => s.setReservas);
+  const {setLocaisCarrinho, locaisCarrinho} = useLocalsStore();
 
   // redirecionar quando deletar
   const location = useLocation();
@@ -143,9 +144,9 @@ const DetalhesLocal = () => {
                         type="button"
                         onClick={() => {
                           if (local.reservas) {
-                            setReservas(local.reservas, local);
-                            console.log(local.reservas);
-                            navigate("/reserva");
+                            setLocaisCarrinho(locaisCarrinho.concat({ local, quantidade: 1 }));
+                            // console.log(local.reservas);
+                            navigate("/carrinho");
                           }
                         }}
                         className="btn btn-warning btn-lg mt-2"

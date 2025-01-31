@@ -39,7 +39,8 @@ const router = createBrowserRouter([
 
       { path: "editar-local", element: <EditarLocalPage/> },
       { path: "cadastrar-local", element: <CadastroDeProdutosPage /> },
-      { path: "reserva", element: <CarrinhoPage /> },
+      { path: "carrinho", element: <CarrinhoPage /> },
+      // { path: "reserva", element: <CarrinhoPage /> },
       { path: "perfil", element: <Profile /> },
     ],
   }
