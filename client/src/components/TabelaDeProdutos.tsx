@@ -102,7 +102,7 @@ const TabelaDeLocais = ({ usuario, filterByUser }: Props) => {
           <tr>
             <th className="align-middle text-center">Disponibilidade 
               <Ordenacao
-                sortField="disponibilidade"
+                sortField="disponivel"
                 currentSortField={sortField}
                 sortOrder={sortOrder}
                 onSortChange={handleSortChange}

@@ -21,7 +21,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/signup", "/autenticacao/login", "/locais", "/locais/{idLocal}",
                                 "/locais/categoria/paginacao", "/locais/paginacao", "/users/{idUsuario}",
-                                "/users/email/{email}", "/categorias","/res", "/inc", "/fac")
+                                "/users/email/{email}", "/categorias","/res", "/inc", "/fac",
+                                "/cart/add", "/cart/{usuarioId")
 //                                "/api", "/api/files", "/api/uploadFilesIntoDB", "api/uploadFilesIntoFileSystem")
                         .permitAll()
                         .anyRequest().authenticated()

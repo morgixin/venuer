@@ -35,7 +35,6 @@ import { getCategorias } from "../hooks/useCategoria";
 //   return categoria != "0";
 // };
 
-const regexData = /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/;
 const regexImagem = /^[a-z]+\.(gif|jpg|png|bmp)$/;
 const schema = z.object({
   nome: z
@@ -47,11 +46,10 @@ const schema = z.object({
   //   id: z.number().positive("A categoria selecionada deve ser válida."),
   //   nome: z.string(),
   // }),
-  data_cadastro: z
-    .string()
-    .min(1, { message: "A data de cadastro deve ser informada." })
-    .regex(regexData, { message: "Data inválida." })
-    .refine(dataValida, { message: "Data inválida." }),
+  // dataCadastro: z
+  //   .string()
+  //   .min(1, { message: "A data de cadastro deve ser informada." })
+  //   .refine(dataValida, { message: "Data inválida." }),
   valorDiaria: z
     .number({ invalid_type_error: "O preço deve ser informado." })
     .min(0.1, { message: "O preço deve ser maior ou igual a R$ 0.10" }),
@@ -125,14 +123,14 @@ const CadastroDeLocaisForm = (props: Props) => {
     formState: { isSubmitSuccessful, errors },
   } = useForm<LocalForm>({ resolver: zodResolver(schema) });
 
-  const { mutate: cadastrarLocal, error: errorCadastrarLocal } =
-    useCadastrarLocal();
+  const { mutate: cadastrarLocal, error: errorCadastrarLocal } = useCadastrarLocal();
   const { mutate: alterarLocal, error: errorAlterarLocal } = useAlterarLocal();
 
   // const onSubmit = data => console.log(data);
 
   const usuario = useUsuarioStore((s) => s.usuario);
   console.log(usuario);
+  console.log("is edit:", props.isEdit)
 
   // load localSelecionado from Local list when user clicks on name value --> used on Edit mode
   useEffect(() => {
@@ -142,11 +140,11 @@ const CadastroDeLocaisForm = (props: Props) => {
     if (localSelecionado.id) {
       setValue("nome", localSelecionado.nome);
       setValue("descricao", localSelecionado.descricao);
-      setValue("categoria", localSelecionado.categoria);
-      setValue(
-        "data_cadastro",
-        dayjs(localSelecionado.dataCadastro).format("DD/MM/YYYY")
-      );
+      // setValue("categoria", localSelecionado.categoria);
+      // setValue(
+      //   "dataCadastro",
+      //   dayjs(localSelecionado.dataCadastro).format("DD/MM/YYYY")
+      // );
       setValue("valorDiaria", localSelecionado.valorDiaria);
       setValue(
         "qtdMinimaPessoas",
@@ -187,9 +185,7 @@ const CadastroDeLocaisForm = (props: Props) => {
   const [categoriasOptions, setCategoriasOptions] = useState<Categoria[]>([]);
   const [restricoesOptions, setRestricoesOptions] = useState<Restricao[]>([]);
   const [inclusoesOptions, setInclusoesOptions] = useState<Inclusao[]>([]);
-  const [facilidadesOptions, setFacilidadesOptions] = useState<Facilidade[]>(
-    []
-  );
+  const [facilidadesOptions, setFacilidadesOptions] = useState<Facilidade[]>([]);
 
   useEffect(() => {
     // Load options for restricoes, inclusoes, and facilidades
@@ -284,6 +280,7 @@ const CadastroDeLocaisForm = (props: Props) => {
 
   // submit object of format LocalForm to API
   const submit = (data: LocalForm) => {
+    console.log("1231")
     if (!usuario) {
       console.log("usuario não encontrado");
       return;
@@ -296,8 +293,8 @@ const CadastroDeLocaisForm = (props: Props) => {
     id: props.isEdit ? localSelecionado.id : null,
     nome: data.nome,
     descricao: data.descricao,
-    categoria: categoriaOpt || { id: 4, nome: "Espaço" },
-    dataCadastro: props.isEdit ? localSelecionado.dataCadastro : new Date().toISOString().split("T")[0],
+    categoria: categoriaOpt || {id: 108, nome: "Espaço"},
+    dataCadastro: props.isEdit  ? localSelecionado.dataCadastro : new Date().toISOString().split("T")[0],
     valorDiaria: data.valorDiaria,
     qtdMinimaPessoas: data.qtdMinimaPessoas,
     qtdMaximaPessoas: data.qtdMaximaPessoas,
@@ -307,10 +304,10 @@ const CadastroDeLocaisForm = (props: Props) => {
     cidade: data.cidade,
     estado: data.estado,
     cep: data.cep,
-    restricoes: restricoes,
-    inclusoes: inclusoes,
-    facilidades: facilidades,
-    reservas: [],
+    restricoes: restricoes || [],
+    inclusoes: inclusoes || [],
+    facilidades: facilidades || [],
+    reservas: reserva || [],
     usuario: {
       id: usuario.id,
       username: usuario.username,
@@ -332,6 +329,7 @@ const CadastroDeLocaisForm = (props: Props) => {
       // }
     }
     if (props.isCreate) {
+      console.log("cadastrando local: ", local)
       cadastrarLocal(local);
     }
   };
@@ -422,15 +420,15 @@ const CadastroDeLocaisForm = (props: Props) => {
                 className={
                   // errors.categoria
                   //   ? "form-control form-control-sm is-invalid"
-                  //   : 
-                  "form-control form-control-sm"
-                }
-                defaultValue={localSelecionado.categoria?.nome}
-                onChange={(e) => {
-                  const selectedCategoria = categoriasOptions.find(option => option.nome === e.target.value);
-                  setCategoria(selectedCategoria);
-                }}
-              >
+                    //   : 
+                    "form-control form-control-sm"
+                  }
+                  defaultValue={localSelecionado.categoria?.nome}
+                  onChange={(e) => {
+                    const selectedCategoria = categoriasOptions.find(option => option.nome === e.target.value) || { id: 4, nome: "Espaço" };
+                    setCategoria(selectedCategoria);
+                  }}
+                  >
                 <option value="0">Selecione uma categoria</option>
                 {categoriasOptions.map((option) => (
                   <option key={option.id} value={option.nome}>
